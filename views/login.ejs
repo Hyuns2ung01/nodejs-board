@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+    <link rel="stylesheet" href="/style.css"> 
+    <style>
+        /* 배경 및 중앙 정렬 (회원가입 페이지와 동일) */
+        body {
+            font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* 로그인 카드 박스 */
+        .login-container {
+            background-color: #ffffff;
+            padding: 40px 35px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 360px; /* 회원가입보다 입력이 적으므로 폭을 살짝 좁게 */
+            text-align: center;
+        }
+
+        /* 제목 (이모지 활용) */
+        .login-container h2 {
+            margin: 0 0 30px 0;
+            color: #333;
+            font-size: 1.8em;
+            letter-spacing: -0.5px;
+        }
+
+        /* 입력창 그룹 */
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        /* 입력창 스타일 */
+        .form-group input {
+            width: 100%;
+            padding: 14px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+            background-color: #f9f9f9;
+        }
+
+        .form-group input:focus {
+            border-color: #4CAF50;
+            background-color: #fff;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+
+        /* 로그인 버튼 */
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-submit:hover {
+            background-color: #43a047;
+        }
+
+        /* 하단 링크 영역 (회원가입, 홈으로) */
+        .links {
+            margin-top: 25px;
+            font-size: 0.9em;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 10px;
+        }
+
+        .links a {
+            color: #666;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .links a:hover {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>🔐 로그인</h2>
+        
+        <form action="/login" method="POST">
+            <div class="form-group">
+                <input type="text" name="username" placeholder="아이디" required>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" placeholder="비밀번호" required>
+            </div>
+            
+            <button type="submit" class="btn-submit">로그인</button>
+        </form>
+
+        <div class="links">
+            <a href="/register">회원가입 하기</a>
+            <a href="/posts">홈으로</a>
+        </div>
+    </div>
+
+</body>
+</html>

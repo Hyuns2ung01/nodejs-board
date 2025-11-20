@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <link rel="stylesheet" href="/style.css">
+    <meta charset="UTF-8">
+    <title>새 글 작성</title>
+    <style>
+        body { width: 800px; margin: auto; font-family: sans-serif; }
+        input, textarea { width: 100%; padding: 8px; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+    <h1>✏ 새 글 작성</h1>
+
+    <form action="/posts" method="POST">
+        <input type="text" name="title" placeholder="제목" required />
+        <textarea name="content" rows="10" placeholder="내용" required></textarea>
+        <button type="submit">작성하기</button>
+    </form>
+
+    <a href="/posts">← 목록으로</a>
+</body>
+</html>

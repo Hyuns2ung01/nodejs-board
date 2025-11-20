@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <link rel="stylesheet" href="/style.css">
+    <meta charset="UTF-8">
+    <title><%= post.title %></title>
+    <style>
+        body { width: 800px; margin: auto; font-family: sans-serif; }
+        .btns a, .btns form { margin-right: 10px; display: inline-block; }
+    </style>
+</head>
+<body>
+    <h1><%= post.title %></h1>
+
+    <div style="margin-bottom: 20px; color: #666; font-size: 0.9em; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
+        
+        <span style="margin-right: 15px;">
+            🧑‍💻 작성자: <strong><%= post.author_name || 'Unknown' %></strong>
+        </span>
+
+        <span>
+            👀 조회수: <%= post.view_count %>
+        </span>
+
+    </div>
+
+    <hr>
+    
+    <div class="content" style="white-space: pre-wrap;"><%= post.content %></div>
+    <hr>
+    <div class="btns">
+        <a href="/posts">← 목록으로</a>
+
+        <% if (user && (user.id === post.author_id || user.is_admin)) { %>
+        <a href="/posts/<%= post.id %>/edit">✏ 수정</a>
+        <form action="/posts/<%= post.id %>/delete" method="POST" style="display:inline;">
+            <button type="submit" onclick="return confirm('삭제하시겠습니까?')">삭제</button>
+        </form>
+    <% } %>
+    </div>
+</body>
+</html>

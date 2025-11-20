@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입</title>
+    <link rel="stylesheet" href="/style.css"> 
+    <style>
+        /* 화면 전체를 꽉 채우고 중앙 정렬 */
+        body {
+            font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* 화면 전체 높이 */
+            margin: 0;
+            overflow: hidden; /* 불필요한 스크롤 방지 */
+        }
+
+        /* 흰색 카드 박스 디자인 */
+        .register-container {
+            background-color: #ffffff;
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px; /* 너무 넓어지지 않게 제한 */
+            text-align: center;
+        }
+
+        /* 제목 스타일 (이모지 사용으로 깨짐 방지) */
+        .register-container h2 {
+            margin: 0 0 25px 0;
+            color: #333;
+            font-size: 1.8em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* 입력폼 감싸는 박스 */
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        /* 입력창 스타일 */
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.95em;
+            box-sizing: border-box; /* 패딩이 너비에 포함되도록 설정 */
+            transition: all 0.3s ease;
+            background-color: #f9f9f9;
+        }
+
+        .form-group input:focus {
+            border-color: #4CAF50;
+            background-color: #fff;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+
+        /* 가입하기 버튼 */
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-submit:hover {
+            background-color: #43a047;
+        }
+
+        /* 홈으로 돌아가기 링크 */
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #888;
+            text-decoration: none;
+            font-size: 0.9em;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: #4CAF50;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="register-container">
+        <h2>📝 회원가입</h2>
+        
+        <form action="/register" method="POST">
+            <div class="form-group">
+                <input type="text" name="name" placeholder="이름 (실명)" required autocomplete="off">
+            </div>
+            <div class="form-group">
+                <input type="text" name="username" placeholder="아이디" required autocomplete="off">
+            </div>
+            <div class="form-group">
+                <input type="email" name="email" placeholder="이메일 (example@test.com)" required autocomplete="off">
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" placeholder="비밀번호" required>
+            </div>
+            <div class="form-group">
+                <input type="password" name="confirm_password" placeholder="비밀번호 확인" required>
+            </div>
+            
+            <button type="submit" class="btn-submit">가입하기</button>
+        </form>
+
+        <a href="/posts" class="back-link">홈으로 돌아가기</a>
+    </div>
+
+</body>
+</html>

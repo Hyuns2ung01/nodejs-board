@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <link rel="stylesheet" href="/style.css">
+    <meta charset="UTF-8">
+    <title>게시글 목록</title>
+    <style>
+        body { width: 800px; margin: auto; font-family: sans-serif; }
+        h1 { margin-top: 20px; }
+        
+        /* 상단 바 레이아웃 수정 (아이템이 3개가 되므로 정렬 방식 유지) */
+        .top-bar { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; /* 수직 중앙 정렬 추가 */
+            margin: 15px 0; 
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee; /* 구분선 추가 */
+        }
+        
+        .post { padding: 12px; border-bottom: 1px solid #ddd; }
+        .pagination a { margin: 0 5px; text-decoration: none; }
+        .active { font-weight: bold; text-decoration: underline; }
+        
+        .no-result {
+            text-align: center;
+            padding: 50px 0;
+            color: #666;
+            font-size: 1.2em;
+        }
+
+        /* 로그인/회원가입 링크 스타일 */
+        .auth-box a {
+            margin-right: 10px;
+            text-decoration: none;
+            color: #333;
+            font-size: 0.9em;
+        }
+        .admin-tag {
+            color: red; 
+            font-weight: bold;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>📋 게시글 목록</h1>
+
+    <div class="top-bar">
+        <div class="auth-box">
+            <% if (user) { %>
+                <span>👋 <strong><%= user.name %></strong>님</span>
+                <a href="/logout" style="color: blue; margin-left: 10px;">로그아웃</a>
+                
+                <% if (user.is_admin) { %>
+                    <a href="/admin" class="admin-tag">[관리자 페이지]</a>
+                <% } %>
+            <% } else { %>
+                <a href="/login">로그인</a>
+                <a href="/register">회원가입</a>
+            <% } %>
+        </div>
+
+        <form method="GET" action="/posts">
+            <input type="text" name="search" value="<%= search %>" placeholder="검색어 입력" />
+            <button type="submit">검색</button>
+        </form>
+
+        <a href="/posts/new">✏ 글쓰기</a>
+    </div>
+
+    <div>
+        <% if (posts.length === 0) { %>
+            <div class="no-result">
+                게시물이 존재하지 않습니다.
+            </div>
+        <% } else { %>
+            <% posts.forEach(post => { %>
+                <div class="post">
+                    <a href="/posts/<%= post.id %>">
+                        <% if (post.title.startsWith('[공지]')) { %>
+        <strong style="color: red;">📢 <%= post.title %></strong>
+    <% } else { %>
+        <strong><%= post.title %></strong>
+    <% } %>
+                    </a>
+                    <div>조회수: <%= post.view_count %></div>
+                </div>
+            <% }) %>
+        <% } %>
+    </div>
+
+    <div class="pagination">
+        <% for (let i = 1; i <= totalPages; i++) { %>
+            <% if (i === currentPage) { %>
+                <a class="active"><%= i %></a>
+            <% } else { %>
+                <a href="/posts?page=<%= i %>&search=<%= search %>"><%= i %></a>
+            <% } %>
+        <% } %>
+    </div>
+
+</body>
+</html>

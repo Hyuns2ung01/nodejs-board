@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>회원정보 수정 (관리자용)</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f2f5;
+            margin: 0;
+            font-family: sans-serif;
+        }
+        .edit-container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 400px;
+        }
+        h2 { text-align: center; color: #333; margin-bottom: 20px; }
+        
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
+        input {
+            width: 100%; padding: 10px;
+            border: 1px solid #ddd; border-radius: 5px;
+            box-sizing: border-box; /* 패딩 포함 크기 계산 */
+        }
+        /* 읽기 전용 필드 스타일 */
+        input[readonly] { background-color: #eee; color: #888; cursor: not-allowed; }
+
+        .btn-group { display: flex; justify-content: space-between; margin-top: 20px; }
+        button {
+            width: 48%; padding: 12px; border: none; border-radius: 5px;
+            font-weight: bold; cursor: pointer; font-size: 1em;
+        }
+        .btn-save { background-color: #4CAF50; color: white; }
+        .btn-cancel { background-color: #999; color: white; }
+        
+        button:hover { opacity: 0.9; }
+    </style>
+</head>
+<body>
+
+    <div class="edit-container">
+        <h2>🛠 회원정보 수정</h2>
+        
+        <form action="/admin/users/<%= targetUser.id %>/update" method="POST">
+            
+            <div class="form-group">
+                <label>회원번호 (수정불가)</label>
+                <input type="text" value="<%= targetUser.id %>" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>아이디 (수정불가)</label>
+                <input type="text" value="<%= targetUser.username %>" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>이름</label>
+                <input type="text" name="name" value="<%= targetUser.name %>" required>
+            </div>
+
+            <div class="form-group">
+                <label>이메일</label>
+                <input type="email" name="email" value="<%= targetUser.email %>" required>
+            </div>
+
+            <div class="btn-group">
+                <button type="button" class="btn-cancel" onclick="history.back()">취소</button>
+                <button type="submit" class="btn-save">저장하기</button>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>

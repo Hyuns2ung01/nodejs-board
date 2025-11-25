@@ -1,9 +1,166 @@
 <!DOCTYPE html>
-<html>
-<head><title>관리자 페이지</title></head>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>관리자 페이지 - 회원 관리</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        body { width: 1000px; margin: 40px auto; font-family: 'Apple SD Gothic Neo', sans-serif; background-color: #f9f9f9; }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #4CAF50;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        h1 { margin: 0; color: #333; }
+        
+        /* 테이블 스타일 개선 */
+        table { 
+            width: 100%; 
+            border-collapse: separate; 
+            border-spacing: 0; 
+            background: white; 
+            border-radius: 8px; 
+            overflow: hidden; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        th, td { 
+            padding: 15px 10px; 
+            text-align: center; 
+            border-bottom: 1px solid #eee; 
+            font-size: 0.95em;
+        }
+        
+        th { 
+            background-color: #f1f3f5; 
+            color: #555; 
+            font-weight: bold; 
+            white-space: nowrap; /* 제목 줄바꿈 방지 */
+        }
+        
+        /* 마우스 올렸을 때 효과 */
+        tr:hover { background-color: #f8fff8; }
+
+        /* 수정 링크 스타일 */
+        .edit-link {
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background 0.2s;
+        }
+        .edit-link:hover {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        /* 뱃지 스타일 */
+        .badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 0.8em; font-weight: bold; }
+        .badge-admin { background-color: #e3f2fd; color: #1565c0; }
+        .badge-user { background-color: #f5f5f5; color: #616161; }
+
+        /* 버튼 그룹 가로 정렬 */
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 6px; /* 버튼 사이 간격 */
+        }
+
+        /* 버튼 스타일 최적화 */
+        .btn {
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85em;
+            font-weight: bold;
+            transition: opacity 0.2s;
+            white-space: nowrap; /* 버튼 글자 줄바꿈 방지 */
+        }
+        .btn:hover { opacity: 0.8; }
+        
+        .btn-role { background-color: #2196F3; color: white; }
+        .btn-del { background-color: #ff5252; color: white; }
+
+        .back-link { 
+            display: inline-block; 
+            margin-top: 20px; 
+            text-decoration: none; 
+            color: #666; 
+            font-weight: bold; 
+        }
+        .back-link:hover { color: #4CAF50; }
+    </style>
+</head>
 <body>
-    <h1>👑 관리자 페이지입니다</h1>
-    <p>여기서 회원 관리나 게시글 관리를 할 수 있습니다.</p>
-    <a href="/posts">게시판으로 돌아가기</a>
+
+    <div class="header">
+        <h1>👑 회원 관리</h1>
+        <span>총 <strong><%= users.length %></strong>명</span>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 50px;">ID</th>
+                <th>이름 (수정)</th> <th>아이디</th>
+                <th>이메일</th>
+                <th style="width: 100px;">가입일</th>
+                <th style="width: 80px;">권한</th>
+                <th style="width: 140px;">관리</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% users.forEach(u => { %>
+                <tr>
+                    <td><%= u.id %></td>
+                    
+                    <td>
+                        <a href="/admin/users/<%= u.id %>/edit" class="edit-link" title="정보 수정">
+                            <%= u.name %> ✏️
+                        </a>
+                    </td>
+
+                    <td><%= u.username %></td>
+                    <td><%= u.email %></td>
+                    <td><%= new Date(u.created_at).toLocaleDateString() %></td>
+                    
+                    <td>
+                        <% if (u.is_admin) { %>
+                            <span class="badge badge-admin">관리자</span>
+                        <% } else { %>
+                            <span class="badge badge-user">일반</span>
+                        <% } %>
+                    </td>
+                    
+                    <td>
+                        <div class="action-buttons">
+                            <form action="/admin/users/<%= u.id %>/role" method="POST">
+                                <input type="hidden" name="is_admin" value="<%= u.is_admin ? 0 : 1 %>">
+                                <button type="submit" class="btn btn-role">
+                                    <%= u.is_admin ? '▼ 해제' : '▲ 승격' %>
+                                </button>
+                            </form>
+
+                            <form action="/admin/users/<%= u.id %>/delete" method="POST" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+                                <button type="submit" class="btn btn-del">삭제</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+
+    <a href="/posts" class="back-link">← 게시판으로 돌아가기</a>
+
 </body>
 </html>

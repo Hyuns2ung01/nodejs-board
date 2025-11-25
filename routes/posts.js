@@ -51,16 +51,16 @@ router.get('/', async (req, res) => {
     }
 });
 
-// [수정됨] 글쓰기 폼 (checkLogin 추가 -> 로그인 안하면 못 들어옴)
+// 글쓰기 폼 (checkLogin 추가 -> 로그인 안하면 못 들어옴)
 router.get('/new', checkLogin, (req, res) => {
     res.render("new");
 });
 
-// [수정됨] 글 저장 (작성자 ID 저장 추가)
+// 글 저장 (작성자 ID 저장 추가)
 router.post('/', checkLogin, async (req, res) => {
     try {
         const { title, content } = req.body;
-        const author_id = req.session.user.id; // 로그인한 사람의 ID
+        const author_id = req.session.user.id; // << 로그인한 사람의 ID
 
         await pool.query(
             `INSERT INTO posts (title, content, author_id) VALUES (?, ?, ?)`,
@@ -80,7 +80,7 @@ router.get('/:id', async (req, res) => {
         // 조회수 증가
         await pool.query(`UPDATE posts SET view_count = view_count + 1 WHERE id=?`, [id]);
 
-        // [중요] posts 테이블과 users 테이블을 합쳐서(JOIN) 작성자 이름(author_name)을 가져옴
+        // posts 테이블과 users 테이블을 합쳐서 작성자 이름(author_name)을 가져옴
         const [[post]] = await pool.query(
             `SELECT p.*, u.name AS author_name 
              FROM posts p 
@@ -98,24 +98,24 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// [수정됨] 삭제 (본인 확인 로직 추가)
+// 삭제 (본인 확인 추가)
 router.post('/:id/delete', checkLogin, async (req, res) => {
     try {
         const id = req.params.id;
         const userId = req.session.user.id;
         const isAdmin = req.session.user.is_admin === 1;
 
-        // 1. 먼저 게시글 정보를 가져와서 작성자가 누군지 확인
+        // 먼저 게시글 정보를 가져와서 작성자가 누군지 확인
         const [[post]] = await pool.query(`SELECT * FROM posts WHERE id=?`, [id]);
 
         if (!post) return res.status(404).send("게시글이 없습니다.");
 
-        // 2. 권한 체크 (작성자이거나 관리자만 통과)
+        // 권한 체크 (작성자이거나 관리자만 통과)
         if (post.author_id !== userId && !isAdmin) {
             return res.send(`<script>alert('작성자만 삭제할 수 있습니다.'); history.back();</script>`);
         }
 
-        // 3. 삭제 실행
+        // 삭제 실행
         await pool.query(`DELETE FROM posts WHERE id=?`, [id]);
         res.redirect('/posts');
 
